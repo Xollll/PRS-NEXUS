@@ -35,7 +35,14 @@
                         @csrf
                         <button class="rounded-full border border-amber-400/30 bg-amber-400/10 px-4 py-2 font-medium text-amber-200 transition hover:bg-amber-400/20">Logout</button>
                     </form>
+                @elseif(session('member_user_id'))
+                    <a class="rounded-full px-4 py-2 text-slate-300 transition hover:bg-white/5 hover:text-white" href="{{ route('member.dashboard') }}">My Portal</a>
+                    <form method="POST" action="{{ route('member.logout') }}">
+                        @csrf
+                        <button class="rounded-full border border-cyan-400/30 bg-cyan-400/10 px-4 py-2 font-medium text-cyan-100 transition hover:bg-cyan-400/20">Logout</button>
+                    </form>
                 @else
+                    <a class="rounded-full px-4 py-2 text-slate-300 transition hover:bg-white/5 hover:text-white" href="{{ route('member.login') }}">Member Login</a>
                     <a class="rounded-full border border-white/10 bg-white/5 px-4 py-2 font-medium text-white transition hover:bg-white/10" href="{{ route('admin.login') }}">Admin Login</a>
                 @endif
             </nav>

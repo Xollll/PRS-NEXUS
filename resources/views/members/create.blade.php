@@ -16,7 +16,15 @@
             </div>
             <div class="mb-2">
                 <label class="block">Email</label>
-                <input name="email" class="border px-2 py-1 w-full" value="{{ old('email') }}" />
+                <input type="email" name="email" required class="border px-2 py-1 w-full" value="{{ old('email') }}" />
+            </div>
+            <div class="mb-2">
+                <label class="block">Member Portal Password</label>
+                <input type="password" name="password" required class="border px-2 py-1 w-full" />
+            </div>
+            <div class="mb-2">
+                <label class="block">Confirm Password</label>
+                <input type="password" name="password_confirmation" required class="border px-2 py-1 w-full" />
             </div>
             <div class="mb-2">
                 <label class="block">Phone</label>
@@ -27,7 +35,16 @@
                 <input name="programme" class="border px-2 py-1 w-full" value="{{ old('programme') }}" />
             </div>
             <div class="mb-2">
-                <label class="block">Role Title</label>
+                <label class="block">Committee Position</label>
+                <select name="committee_position_id" class="border px-2 py-1 w-full">
+                    <option value="">No assigned position</option>
+                    @foreach($committeePositions as $position)
+                        <option value="{{ $position->id }}" @selected(old('committee_position_id') == $position->id)>{{ $position->title }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="mb-2">
+                <label class="block">Custom Role Title <span class="text-sm">(optional fallback)</span></label>
                 <input name="role_title" class="border px-2 py-1 w-full" value="{{ old('role_title') }}" />
             </div>
             <div class="mb-2">

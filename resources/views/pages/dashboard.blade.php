@@ -19,17 +19,28 @@
         </div>
     </section>
 
+    <section class="mt-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
+        <a href="{{ route('admin.members.index') }}" class="rounded-2xl border border-white/10 bg-white/5 px-5 py-4 text-center font-semibold text-white transition hover:border-cyan-400/40 hover:bg-cyan-400/10">Manage All Members</a>
+        <a href="#add-member" class="rounded-2xl border border-emerald-400/30 bg-emerald-400/10 px-5 py-4 text-center font-semibold text-emerald-100 transition hover:bg-emerald-400/20">Add Member</a>
+        <a href="#committee-management" class="rounded-2xl border border-cyan-400/30 bg-cyan-400/10 px-5 py-4 text-center font-semibold text-cyan-100 transition hover:bg-cyan-400/20">Committee Positions</a>
+        <a href="#meeting-management" class="rounded-2xl border border-amber-400/30 bg-amber-400/10 px-5 py-4 text-center font-semibold text-amber-100 transition hover:bg-amber-400/20">Meetings</a>
+        <a href="#activity-management" class="rounded-2xl border border-fuchsia-400/30 bg-fuchsia-400/10 px-5 py-4 text-center font-semibold text-fuchsia-100 transition hover:bg-fuchsia-400/20">Activities</a>
+    </section>
+
     <div class="mt-8 grid gap-6 xl:grid-cols-2">
-        <section class="rounded-3xl border border-white/10 bg-slate-900/80 p-6">
+        <section id="add-member" class="rounded-3xl border border-white/10 bg-slate-900/80 p-6">
             <h2 class="font-display text-2xl font-bold text-white">Add Member</h2>
             <form method="POST" action="{{ route('admin.members.store') }}" class="mt-5 grid gap-4 sm:grid-cols-2">
                 @csrf
                 <input name="full_name" placeholder="Full name" class="rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-3 text-white placeholder:text-slate-500 sm:col-span-2">
                 <input name="matric_no" placeholder="Matric number" class="rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-3 text-white placeholder:text-slate-500">
-                <input name="email" placeholder="Email" class="rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-3 text-white placeholder:text-slate-500">
+                <input name="email" type="email" required placeholder="Email" class="rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-3 text-white placeholder:text-slate-500">
+                <input name="password" type="password" required placeholder="Member portal password" class="rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-3 text-white placeholder:text-slate-500">
+                <input name="password_confirmation" type="password" required placeholder="Confirm portal password" class="rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-3 text-white placeholder:text-slate-500">
                 <input name="phone" placeholder="Phone" class="rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-3 text-white placeholder:text-slate-500">
                 <input name="programme" placeholder="Programme" class="rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-3 text-white placeholder:text-slate-500">
-                <input name="role_title" placeholder="Role title" class="rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-3 text-white placeholder:text-slate-500">
+                <select name="committee_position_id" class="rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-3 text-white"><option value="">No committee position</option>@foreach ($committeePositions as $position)<option value="{{ $position->id }}">{{ $position->title }}</option>@endforeach</select>
+                <input name="role_title" placeholder="Custom role title (optional)" class="rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-3 text-white placeholder:text-slate-500">
                 <select name="status" class="rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-3 text-white sm:col-span-2">
                     <option value="active">Active</option>
                     <option value="inactive">Inactive</option>
@@ -38,7 +49,7 @@
             </form>
         </section>
 
-        <section class="rounded-3xl border border-white/10 bg-slate-900/80 p-6">
+        <section id="committee-management" class="rounded-3xl border border-white/10 bg-slate-900/80 p-6">
             <h2 class="font-display text-2xl font-bold text-white">Add Committee Position</h2>
             <form method="POST" action="{{ route('admin.committee-positions.store') }}" class="mt-5 grid gap-4 sm:grid-cols-2">
                 @csrf
@@ -50,7 +61,7 @@
             </form>
         </section>
 
-        <section class="rounded-3xl border border-white/10 bg-slate-900/80 p-6">
+        <section id="meeting-management" class="rounded-3xl border border-white/10 bg-slate-900/80 p-6">
             <h2 class="font-display text-2xl font-bold text-white">Add Meeting</h2>
             <form method="POST" action="{{ route('admin.meetings.store') }}" class="mt-5 grid gap-4 sm:grid-cols-2">
                 @csrf
@@ -62,7 +73,7 @@
             </form>
         </section>
 
-        <section class="rounded-3xl border border-white/10 bg-slate-900/80 p-6">
+        <section id="activity-management" class="rounded-3xl border border-white/10 bg-slate-900/80 p-6">
             <h2 class="font-display text-2xl font-bold text-white">Add Activity</h2>
             <form method="POST" action="{{ route('admin.activities.store') }}" class="mt-5 grid gap-4 sm:grid-cols-2">
                 @csrf
@@ -86,11 +97,8 @@
             <div class="mt-5 space-y-3">
                 @forelse ($members as $member)
                     <div class="flex items-center justify-between gap-4 rounded-2xl border border-white/10 bg-slate-950/50 p-4">
-                        <div>
-                            <p class="font-semibold text-white">{{ $member->full_name }}</p>
-                            <p class="text-sm text-slate-400">{{ $member->matric_no }} · {{ $member->role_title ?? 'Member' }}</p>
-                        </div>
-                        <form method="POST" action="{{ route('admin.members.destroy', $member) }}">
+                        <div class="flex items-center gap-3"><x-member-avatar :member="$member" size="h-10 w-10" /><div><p class="font-semibold text-white">{{ $member->full_name }}</p><p class="text-sm text-slate-400">{{ $member->matric_no }} · {{ $member->display_role }}</p></div></div>
+                        <form method="POST" action="{{ route('admin.members.destroy', $member) }}" data-confirm="Delete {{ $member->full_name }}? This cannot be undone.">
                             @csrf
                             @method('DELETE')
                             <button class="rounded-full border border-red-400/30 bg-red-400/10 px-4 py-2 text-sm font-medium text-red-200">Delete</button>
@@ -114,11 +122,10 @@
                                     <p class="font-semibold text-white">{{ $position->title }}</p>
                                     <p class="text-sm text-slate-400">{{ ucfirst($position->category) }}</p>
                                 </div>
-                                <form method="POST" action="{{ route('admin.committee-positions.destroy', $position) }}">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="rounded-full border border-red-400/30 bg-red-400/10 px-4 py-2 text-sm font-medium text-red-200">Delete</button>
-                                </form>
+                                <div class="flex items-center gap-2">
+                                    <a href="{{ route('admin.committee-positions.edit', $position) }}" class="rounded-full border border-cyan-400/30 bg-cyan-400/10 px-4 py-2 text-sm font-medium text-cyan-100">Edit</a>
+                                    <form method="POST" action="{{ route('admin.committee-positions.destroy', $position) }}" data-confirm="Delete the {{ $position->title }} position? This cannot be undone.">@csrf @method('DELETE')<button class="rounded-full border border-red-400/30 bg-red-400/10 px-4 py-2 text-sm font-medium text-red-200">Delete</button></form>
+                                </div>
                             </div>
                         @empty
                             <p class="text-sm text-slate-400">No committee positions found.</p>
@@ -135,11 +142,10 @@
                                     <p class="font-semibold text-white">{{ $meeting->title }}</p>
                                     <p class="text-sm text-slate-400">{{ $meeting->meeting_date->format('d M Y') }}</p>
                                 </div>
-                                <form method="POST" action="{{ route('admin.meetings.destroy', $meeting) }}">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="rounded-full border border-red-400/30 bg-red-400/10 px-4 py-2 text-sm font-medium text-red-200">Delete</button>
-                                </form>
+                                <div class="flex items-center gap-2">
+                                    <a href="{{ route('admin.meetings.edit', $meeting) }}" class="rounded-full border border-cyan-400/30 bg-cyan-400/10 px-4 py-2 text-sm font-medium text-cyan-100">Edit</a>
+                                    <form method="POST" action="{{ route('admin.meetings.destroy', $meeting) }}" data-confirm="Delete {{ $meeting->title }}? This cannot be undone.">@csrf @method('DELETE')<button class="rounded-full border border-red-400/30 bg-red-400/10 px-4 py-2 text-sm font-medium text-red-200">Delete</button></form>
+                                </div>
                             </div>
                         @empty
                             <p class="text-sm text-slate-400">No meetings found.</p>
@@ -156,11 +162,10 @@
                                     <p class="font-semibold text-white">{{ $activity->title }}</p>
                                     <p class="text-sm text-slate-400">{{ $activity->activity_date->format('d M Y') }} · {{ ucfirst($activity->status) }}</p>
                                 </div>
-                                <form method="POST" action="{{ route('admin.activities.destroy', $activity) }}">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="rounded-full border border-red-400/30 bg-red-400/10 px-4 py-2 text-sm font-medium text-red-200">Delete</button>
-                                </form>
+                                <div class="flex items-center gap-2">
+                                    <a href="{{ route('admin.activities.edit', $activity) }}" class="rounded-full border border-cyan-400/30 bg-cyan-400/10 px-4 py-2 text-sm font-medium text-cyan-100">Edit</a>
+                                    <form method="POST" action="{{ route('admin.activities.destroy', $activity) }}" data-confirm="Delete {{ $activity->title }}? This cannot be undone.">@csrf @method('DELETE')<button class="rounded-full border border-red-400/30 bg-red-400/10 px-4 py-2 text-sm font-medium text-red-200">Delete</button></form>
+                                </div>
                             </div>
                         @empty
                             <p class="text-sm text-slate-400">No activities found.</p>

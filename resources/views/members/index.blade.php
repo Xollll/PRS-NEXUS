@@ -29,15 +29,15 @@
                         <td class="px-2 py-2">{{ $m->full_name }}</td>
                         <td class="px-2">{{ $m->matric_no }}</td>
                         <td class="px-2">{{ $m->email }}</td>
-                        <td class="px-2">{{ $m->role_title }}</td>
+                        <td class="px-2">{{ $m->display_role }}</td>
                         <td class="px-2">{{ $m->programme }}</td>
                         <td class="px-2">
                             <a href="{{ route('admin.members.show', $m) }}" class="text-blue-600">View</a>
                             <a href="{{ route('admin.members.edit', $m) }}" class="ml-2 text-yellow-600">Edit</a>
-                            <form action="{{ route('admin.members.destroy', $m) }}" method="POST" style="display:inline">
+                            <form action="{{ route('admin.members.destroy', $m) }}" method="POST" style="display:inline" data-confirm="Delete {{ $m->full_name }}? This cannot be undone.">
                                 @csrf
                                 @method('DELETE')
-                                <button class="ml-2 text-red-600" onclick="return confirm('Delete?')">Delete</button>
+                                <button class="ml-2 text-red-600">Delete</button>
                             </form>
                         </td>
                     </tr>

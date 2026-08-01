@@ -16,6 +16,7 @@
 
             <div class="mt-8 flex flex-wrap gap-4">
                 <a href="{{ route('directory') }}" class="rounded-full bg-white px-6 py-3 font-semibold text-slate-950 transition hover:bg-slate-200">Open Directory</a>
+                <a href="{{ route('member.login') }}" class="rounded-full border border-cyan-400/30 bg-cyan-400/10 px-6 py-3 font-semibold text-cyan-100 transition hover:bg-cyan-400/20">Member Portal</a>
                 <a href="{{ route('admin.login') }}" class="rounded-full border border-white/15 bg-white/5 px-6 py-3 font-semibold text-white transition hover:bg-white/10">Admin Login</a>
             </div>
 
@@ -56,8 +57,7 @@
             <div class="mt-5 space-y-4">
                 @forelse ($featuredMembers as $member)
                     <div class="rounded-2xl border border-white/10 bg-slate-950/50 p-4">
-                        <p class="font-semibold text-white">{{ $member->full_name }}</p>
-                        <p class="text-sm text-slate-400">{{ $member->matric_no }} · {{ $member->role_title ?? 'Member' }}</p>
+                        <div class="flex items-center gap-3"><x-member-avatar :member="$member" size="h-10 w-10" /><div><p class="font-semibold text-white">{{ $member->full_name }}</p><p class="text-sm text-slate-400">{{ $member->matric_no }} · {{ $member->display_role }}</p></div></div>
                     </div>
                 @empty
                     <p class="text-sm text-slate-400">No members have been added yet.</p>

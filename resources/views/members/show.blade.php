@@ -9,7 +9,7 @@
         <div class="mb-2"><strong>Email:</strong> {{ $member->email }}</div>
         <div class="mb-2"><strong>Phone:</strong> {{ $member->phone }}</div>
         <div class="mb-2"><strong>Programme:</strong> {{ $member->programme }}</div>
-        <div class="mb-2"><strong>Role:</strong> {{ $member->role_title }}</div>
+        <div class="mb-2"><strong>Role:</strong> {{ $member->display_role }}</div>
         <div class="mb-2"><strong>Status:</strong> {{ $member->status }}</div>
 
         <div class="mt-4">

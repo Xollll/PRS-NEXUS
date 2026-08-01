@@ -57,17 +57,36 @@ class DatabaseSeeder extends Seeder
         ];
 
         foreach ($members as $m) {
-            Member::updateOrCreate(['matric_no' => $m['matric_no']], $m);
+            $member = Member::updateOrCreate(['matric_no' => $m['matric_no']], $m);
+
+            User::updateOrCreate(
+                ['email' => $member->email],
+                [
+                    'member_id' => $member->id,
+                    'name' => $member->full_name,
+                    'role' => 'member',
+                    'password' => Hash::make('password'),
+                ]
+            );
         }
 
         $positions = [
             ['title' => 'President', 'category' => 'executive', 'sort_order' => 1, 'description' => 'Leads the student organization and approves major decisions.'],
             ['title' => 'Secretary', 'category' => 'executive', 'sort_order' => 2, 'description' => 'Handles records, correspondence, and meeting minutes.'],
             ['title' => 'Treasurer', 'category' => 'executive', 'sort_order' => 3, 'description' => 'Manages financial records and club expenditures.'],
+            ['title' => 'Project Lead', 'category' => 'project', 'sort_order' => 4, 'description' => 'Coordinates project planning, delivery, and team direction.'],
+            ['title' => 'Frontend Developer', 'category' => 'technical', 'sort_order' => 5, 'description' => 'Builds and maintains the user-facing application experience.'],
+            ['title' => 'Backend Developer', 'category' => 'technical', 'sort_order' => 6, 'description' => 'Builds and maintains application logic and data services.'],
         ];
 
         foreach ($positions as $p) {
             CommitteePosition::updateOrCreate(['title' => $p['title']], $p);
+        }
+
+        foreach ($members as $m) {
+            Member::where('matric_no', $m['matric_no'])->update([
+                'committee_position_id' => CommitteePosition::where('title', $m['role_title'])->value('id'),
+            ]);
         }
 
         $meetings = [
@@ -76,7 +95,7 @@ class DatabaseSeeder extends Seeder
         ];
 
         foreach ($meetings as $m) {
-            Meeting::updateOrCreate(['title' => $m['title'], 'meeting_date' => $m['meeting_date']], $m);
+            Meeting::updateOrCreate(['title' => $m['title']], $m);
         }
 
         $activities = [
@@ -85,7 +104,7 @@ class DatabaseSeeder extends Seeder
         ];
 
         foreach ($activities as $a) {
-            Activity::updateOrCreate(['title' => $a['title'], 'activity_date' => $a['activity_date']], $a);
+            Activity::updateOrCreate(['title' => $a['title']], $a);
         }
     }
 }
