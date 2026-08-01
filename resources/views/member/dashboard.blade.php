@@ -1,47 +1,7 @@
-@extends('layouts.app', ['title' => 'SiswaSphere | Member Portal'])
-
+@extends('layouts.app', ['title' => 'SiswaSphere | Member portal'])
 @section('content')
-    <section class="rounded-[2rem] border border-white/10 bg-white/5 p-6 backdrop-blur lg:p-8">
-        <p class="text-sm uppercase tracking-[0.3em] text-cyan-300/80">Member Dashboard</p>
-        <div class="mt-3 flex items-center gap-4"><x-member-avatar :member="$member" size="h-16 w-16" /><h1 class="font-display text-4xl font-bold text-white">Welcome back, {{ $member->full_name }}.</h1></div>
-        <div class="mt-3 flex flex-wrap items-center justify-between gap-4"><p class="text-slate-300">Your personal organization information and latest records are all in one place.</p><a href="{{ route('member.profile.edit') }}" class="rounded-full border border-cyan-400/30 bg-cyan-400/10 px-4 py-2 text-sm font-medium text-cyan-100">Edit My Profile</a></div>
-    </section>
-
-    <form method="GET" action="{{ route('member.dashboard') }}" class="mt-6 grid gap-3 rounded-3xl border border-white/10 bg-slate-900/80 p-5 sm:grid-cols-2">
-        <select name="meeting_filter" class="rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-3 text-white"><option value="">All meetings</option><option value="upcoming" @selected($meetingFilter === 'upcoming')>Upcoming meetings</option><option value="past" @selected($meetingFilter === 'past')>Past meetings</option></select>
-        <select name="activity_status" class="rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-3 text-white"><option value="">All activities</option><option value="planned" @selected($activityStatus === 'planned')>Planned activities</option><option value="ongoing" @selected($activityStatus === 'ongoing')>Ongoing activities</option><option value="completed" @selected($activityStatus === 'completed')>Completed activities</option></select>
-        <button class="rounded-2xl bg-cyan-400 px-5 py-3 font-semibold text-slate-950 sm:col-span-2">Apply Record Filters</button>
-    </form>
-
-    <div class="mt-8 grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
-        <section class="rounded-3xl border border-cyan-400/20 bg-cyan-400/5 p-6">
-            <h2 class="font-display text-2xl font-bold text-white">My Profile</h2>
-            <dl class="mt-5 space-y-4 text-sm">
-                <div><dt class="text-slate-400">Matric number</dt><dd class="mt-1 font-medium text-white">{{ $member->matric_no }}</dd></div>
-                <div><dt class="text-slate-400">Programme</dt><dd class="mt-1 font-medium text-white">{{ $member->programme ?: 'Not recorded' }}</dd></div>
-                <div><dt class="text-slate-400">Organization role</dt><dd class="mt-1 font-medium text-white">{{ $member->display_role }}</dd></div>
-                <div><dt class="text-slate-400">Membership status</dt><dd class="mt-1 font-medium capitalize text-white">{{ $member->status }}</dd></div>
-                <div><dt class="text-slate-400">Contact</dt><dd class="mt-1 font-medium text-white">{{ $member->email ?: 'Not recorded' }}{{ $member->phone ? ' · '.$member->phone : '' }}</dd></div>
-            </dl>
-        </section>
-
-        <div class="space-y-6">
-            <section class="rounded-3xl border border-white/10 bg-slate-900/80 p-6">
-                <h2 class="font-display text-2xl font-bold text-white">Meetings</h2>
-                <div class="mt-5 space-y-3">
-                    @forelse ($meetings as $meeting)
-                        <article class="rounded-2xl border border-white/10 bg-slate-950/50 p-4"><p class="font-semibold text-white">{{ $meeting->title }}</p><p class="mt-1 text-sm text-slate-400">{{ $meeting->meeting_date->format('d M Y') }} · {{ $meeting->location ?: 'Location TBA' }}</p>@if($meeting->summary)<p class="mt-2 text-sm text-slate-300">{{ $meeting->summary }}</p>@endif</article>
-                    @empty <p class="text-sm text-slate-400">No meeting records are available.</p> @endforelse
-                </div>
-            </section>
-            <section class="rounded-3xl border border-white/10 bg-slate-900/80 p-6">
-                <h2 class="font-display text-2xl font-bold text-white">Activities</h2>
-                <div class="mt-5 space-y-3">
-                    @forelse ($activities as $activity)
-                        <article class="rounded-2xl border border-white/10 bg-slate-950/50 p-4"><p class="font-semibold text-white">{{ $activity->title }}</p><p class="mt-1 text-sm text-slate-400">{{ $activity->activity_date->format('d M Y') }} · {{ ucfirst($activity->status) }} · {{ $activity->location ?: 'Location TBA' }}</p>@if($activity->description)<p class="mt-2 text-sm text-slate-300">{{ $activity->description }}</p>@endif</article>
-                    @empty <p class="text-sm text-slate-400">No activity records are available.</p> @endforelse
-                </div>
-            </section>
-        </div>
-    </div>
+<section class="flex flex-col gap-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:flex-row sm:items-center sm:justify-between"><div><p class="text-sm font-semibold text-blue-700">Member portal</p><h1 class="mt-1 text-3xl font-bold text-slate-900">Welcome back, {{ $member->full_name }}</h1><p class="mt-2 text-sm text-slate-600">Here is what is happening in your PRS community.</p></div><a href="{{ route('member.profile.edit') }}" class="ui-button-secondary">Manage profile</a></section>
+<section class="mt-6 grid gap-4 lg:grid-cols-[0.85fr_1.15fr]"><x-card><p class="text-sm font-semibold text-blue-700">Membership status</p><div class="mt-3 flex items-center justify-between gap-3"><div><p class="text-xl font-semibold text-slate-900">{{ $member->display_role }}</p><p class="mt-1 text-sm text-slate-500">Your current PRS role</p></div><x-badge :variant="$member->status === 'active' ? 'active' : 'inactive'">{{ ucfirst($member->status) }}</x-badge></div></x-card><aside class="rounded-xl border border-blue-200 bg-blue-50 p-5"><p class="text-sm font-semibold text-blue-700">Portal notice</p><h2 class="mt-1 text-lg font-semibold text-slate-900">Keep your profile ready for the community</h2><p class="mt-2 text-sm leading-6 text-slate-600">Check that your contact details and programme are current so PRS administrators can reach you when needed.</p><a href="{{ route('member.profile.edit') }}" class="mt-3 inline-flex text-sm font-semibold text-blue-700 hover:underline">Review my profile</a></aside></section>
+<section class="mt-8"><div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between"><div><p class="text-sm font-semibold text-blue-700">Your schedule</p><h2 class="mt-1 text-xl font-semibold text-slate-900">Meetings</h2></div><form method="GET" action="{{ route('member.dashboard') }}" class="flex items-center gap-2"><label for="meeting_filter" class="sr-only">Meeting period</label><select id="meeting_filter" name="meeting_filter" class="ui-select w-44"><option value="">All meetings</option><option value="upcoming" @selected($meetingFilter === 'upcoming')>Upcoming meetings</option><option value="past" @selected($meetingFilter === 'past')>Past meetings</option></select><input type="hidden" name="activity_status" value="{{ $activityStatus }}"><button class="ui-button-secondary">Apply</button></form></div><div class="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-3">@forelse($meetings as $meeting)<x-card><x-badge :variant="$meeting->meeting_date->isToday() || $meeting->meeting_date->isFuture() ? 'upcoming' : 'inactive'">{{ $meeting->meeting_date->isToday() || $meeting->meeting_date->isFuture() ? 'Upcoming' : 'Past' }}</x-badge><h3 class="mt-3 font-semibold text-slate-900">{{ $meeting->title }}</h3><p class="mt-2 text-sm text-slate-500">{{ $meeting->meeting_date->format('d M Y') }} · {{ $meeting->location ?: 'Venue to be confirmed' }}</p>@if($meeting->summary)<p class="mt-2 text-sm leading-6 text-slate-600">{{ $meeting->summary }}</p>@endif</x-card>@empty<x-empty-state class="md:col-span-2 xl:col-span-3" title="No meetings found" description="New PRS meeting information will appear here." />@endforelse</div></section>
+<section class="mt-8"><div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between"><div><p class="text-sm font-semibold text-blue-700">Get involved</p><h2 class="mt-1 text-xl font-semibold text-slate-900">Activities</h2></div><form method="GET" action="{{ route('member.dashboard') }}" class="flex items-center gap-2"><input type="hidden" name="meeting_filter" value="{{ $meetingFilter }}"><label for="activity_status" class="sr-only">Activity status</label><select id="activity_status" name="activity_status" class="ui-select w-40"><option value="">All activities</option><option value="planned" @selected($activityStatus === 'planned')>Planned</option><option value="ongoing" @selected($activityStatus === 'ongoing')>Ongoing</option><option value="completed" @selected($activityStatus === 'completed')>Completed</option></select><button class="ui-button-secondary">Apply</button></form></div><div class="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-3">@forelse($activities as $activity)<x-card><div class="flex flex-wrap items-start justify-between gap-2"><h3 class="font-semibold text-slate-900">{{ $activity->title }}</h3><x-badge :variant="$activity->status === 'completed' ? 'success' : ($activity->status === 'ongoing' ? 'info' : 'upcoming')">{{ ucfirst($activity->status) }}</x-badge></div><p class="mt-2 text-sm text-slate-500">{{ $activity->activity_date->format('d M Y') }} · {{ $activity->location ?: 'Venue to be confirmed' }}</p>@if($activity->description)<p class="mt-2 text-sm leading-6 text-slate-600">{{ $activity->description }}</p>@endif</x-card>@empty<x-empty-state class="md:col-span-2 xl:col-span-3" title="No activities found" description="Try another status or check back soon." />@endforelse</div></section>
 @endsection

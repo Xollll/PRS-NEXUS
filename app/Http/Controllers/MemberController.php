@@ -59,7 +59,7 @@ class MemberController extends Controller
             ]);
         });
 
-        return redirect()->route('members.index')->with('success', 'Member created.');
+        return redirect()->route('admin.members.index')->with('success', 'Member created.');
     }
 
     public function show(Member $member)
@@ -95,11 +95,11 @@ class MemberController extends Controller
                 'name' => $member->full_name,
                 'email' => $member->email,
                 'role' => 'member',
-                'password' => $data['password'] ? Hash::make($data['password']) : null,
+                'password' => ($data['password'] ?? null) ? Hash::make($data['password']) : null,
             ], fn ($value) => $value !== null));
         });
 
-        return redirect()->route('members.index')->with('success', 'Member updated.');
+        return redirect()->route('admin.members.index')->with('success', 'Member updated.');
     }
 
     public function destroy(Member $member)
@@ -108,6 +108,6 @@ class MemberController extends Controller
             $member->user()->delete();
             $member->delete();
         });
-        return redirect()->route('members.index')->with('success', 'Member removed.');
+        return redirect()->route('admin.members.index')->with('success', 'Member removed.');
     }
 }

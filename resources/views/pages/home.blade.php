@@ -1,96 +1,16 @@
-@extends('layouts.app', ['title' => 'SiswaSphere | Home'])
+@extends('layouts.app', ['title' => 'SiswaSphere | Pembimbing Rakan Siswa'])
 
 @section('content')
-    <section class="grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-center">
-        <div>
-            <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-amber-400/20 bg-amber-400/10 px-4 py-2 text-sm text-amber-100">
-                <span class="h-2 w-2 rounded-full bg-emerald-400"></span>
-                Centralized club administration for UPSI
-            </div>
-            <h1 class="font-display max-w-3xl text-5xl font-bold leading-[1.05] tracking-tight text-white lg:text-7xl">
-                One platform for members, meetings, and committee records.
-            </h1>
-            <p class="mt-6 max-w-2xl text-lg leading-8 text-slate-300">
-                SiswaSphere follows a layered architecture so presentation, business logic, and data access stay cleanly separated while the club team manages records in one place.
-            </p>
-
-            <div class="mt-8 flex flex-wrap gap-4">
-                <a href="{{ route('directory') }}" class="rounded-full bg-white px-6 py-3 font-semibold text-slate-950 transition hover:bg-slate-200">Open Directory</a>
-                <a href="{{ route('member.login') }}" class="rounded-full border border-cyan-400/30 bg-cyan-400/10 px-6 py-3 font-semibold text-cyan-100 transition hover:bg-cyan-400/20">Member Portal</a>
-                <a href="{{ route('admin.login') }}" class="rounded-full border border-white/15 bg-white/5 px-6 py-3 font-semibold text-white transition hover:bg-white/10">Admin Login</a>
-            </div>
-
-            <div class="mt-10 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-                @foreach ($stats as $label => $value)
-                    <div class="rounded-3xl border border-white/10 bg-white/5 p-5 backdrop-blur">
-                        <p class="text-sm uppercase tracking-[0.24em] text-slate-400">{{ str_replace('_', ' ', $label) }}</p>
-                        <p class="mt-3 font-display text-4xl font-bold text-white">{{ $value }}</p>
-                    </div>
-                @endforeach
-            </div>
-        </div>
-
-        <div class="rounded-[2rem] border border-white/10 bg-slate-900/80 p-6 shadow-2xl shadow-black/20 backdrop-blur">
-            <div class="rounded-[1.5rem] border border-white/10 bg-gradient-to-br from-slate-900 to-slate-950 p-6">
-                <p class="text-sm uppercase tracking-[0.3em] text-amber-300/80">System map</p>
-                <div class="mt-6 space-y-4">
-                    <div class="rounded-2xl border border-amber-400/20 bg-amber-400/10 p-4">
-                        <p class="font-semibold text-white">Presentation Layer</p>
-                        <p class="mt-1 text-sm text-slate-300">Web pages for home, search, and admin screens.</p>
-                    </div>
-                    <div class="rounded-2xl border border-cyan-400/20 bg-cyan-400/10 p-4">
-                        <p class="font-semibold text-white">Application Layer</p>
-                        <p class="mt-1 text-sm text-slate-300">Controllers handle directory search, record management, and session login.</p>
-                    </div>
-                    <div class="rounded-2xl border border-fuchsia-400/20 bg-fuchsia-400/10 p-4">
-                        <p class="font-semibold text-white">Data Layer</p>
-                        <p class="mt-1 text-sm text-slate-300">Members, committee positions, meetings, and activities stored in the database.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <section class="grid overflow-hidden rounded-2xl bg-blue-700 text-white shadow-sm lg:grid-cols-[1.15fr_0.85fr]">
+        <div class="p-7 sm:p-10 lg:p-14"><p class="text-sm font-semibold text-blue-100">Pembimbing Rakan Siswa · UPSI</p><h1 class="mt-4 max-w-3xl text-4xl font-bold tracking-tight sm:text-5xl">A stronger student community starts with connection.</h1><p class="mt-5 max-w-2xl text-base leading-7 text-blue-100">Discover the people, leadership, meetings, and activities that support PRS students in building confidence, wellbeing, and campus community.</p><div class="mt-8 flex flex-wrap gap-3"><a href="{{ route('directory') }}" class="inline-flex items-center justify-center rounded-lg bg-white px-4 py-2.5 text-sm font-semibold text-blue-700 shadow-sm transition hover:bg-blue-50">Explore PRS directory</a><a href="#about" class="inline-flex items-center justify-center rounded-lg border border-blue-300 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-600">Learn about PRS</a></div></div>
+        <div class="flex items-center bg-blue-600/40 p-7 sm:p-10 lg:p-12"><div class="w-full rounded-2xl border border-blue-300/40 bg-white/10 p-6"><p class="text-sm font-medium text-blue-100">PRS at a glance</p><dl class="mt-5 space-y-4">@foreach($stats as $label => $value)<div class="flex items-end justify-between border-b border-blue-300/30 pb-4 last:border-0 last:pb-0"><dt class="text-sm text-blue-100">{{ ucfirst(str_replace('_', ' ', $label)) }}</dt><dd class="text-3xl font-bold">{{ $value }}</dd></div>@endforeach</dl></div></div>
     </section>
 
-    <section class="mt-16 grid gap-6 lg:grid-cols-3">
-        <div class="rounded-3xl border border-white/10 bg-white/5 p-6">
-            <h2 class="font-display text-2xl font-bold text-white">Featured Members</h2>
-            <div class="mt-5 space-y-4">
-                @forelse ($featuredMembers as $member)
-                    <div class="rounded-2xl border border-white/10 bg-slate-950/50 p-4">
-                        <div class="flex items-center gap-3"><x-member-avatar :member="$member" size="h-10 w-10" /><div><p class="font-semibold text-white">{{ $member->full_name }}</p><p class="text-sm text-slate-400">{{ $member->matric_no }} · {{ $member->display_role }}</p></div></div>
-                    </div>
-                @empty
-                    <p class="text-sm text-slate-400">No members have been added yet.</p>
-                @endforelse
-            </div>
-        </div>
+    <section id="about" class="scroll-mt-24 py-12 sm:py-16"><div class="max-w-2xl"><p class="text-sm font-semibold text-blue-700">About PRS</p><h2 class="mt-2 text-3xl font-bold tracking-tight text-slate-900">Peer support that helps students grow.</h2><p class="mt-4 text-base leading-7 text-slate-600">Pembimbing Rakan Siswa is a student peer-support community focused on friendship, leadership, and positive student development. SiswaSphere makes it easy to discover the people and activities behind that support.</p></div><div class="mt-8 grid gap-4 md:grid-cols-3"><x-card><h3 class="font-semibold text-slate-900">Peer connection</h3><p class="mt-2 text-sm leading-6 text-slate-600">Find familiar faces and supportive PRS members across the university community.</p></x-card><x-card><h3 class="font-semibold text-slate-900">Student leadership</h3><p class="mt-2 text-sm leading-6 text-slate-600">Meet the committee members helping shape a welcoming and active organization.</p></x-card><x-card><h3 class="font-semibold text-slate-900">Meaningful activities</h3><p class="mt-2 text-sm leading-6 text-slate-600">Stay connected with meetings and activities that bring students together.</p></x-card></div></section>
 
-        <div class="rounded-3xl border border-white/10 bg-white/5 p-6">
-            <h2 class="font-display text-2xl font-bold text-white">Recent Meetings</h2>
-            <div class="mt-5 space-y-4">
-                @forelse ($latestMeetings as $meeting)
-                    <div class="rounded-2xl border border-white/10 bg-slate-950/50 p-4">
-                        <p class="font-semibold text-white">{{ $meeting->title }}</p>
-                        <p class="text-sm text-slate-400">{{ $meeting->meeting_date->format('d M Y') }} · {{ $meeting->location ?? 'TBA' }}</p>
-                    </div>
-                @empty
-                    <p class="text-sm text-slate-400">No meetings logged yet.</p>
-                @endforelse
-            </div>
-        </div>
+    <section id="community" class="scroll-mt-24 border-t border-slate-200 py-12 sm:py-16"><div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between"><div><p class="text-sm font-semibold text-blue-700">Meet the community</p><h2 class="mt-2 text-2xl font-bold text-slate-900">Featured PRS members</h2></div><a href="{{ route('directory') }}" class="text-sm font-semibold text-blue-700 hover:underline">View all members</a></div><div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">@forelse($featuredMembers as $member)<x-card class="flex items-center gap-4"><x-member-avatar :member="$member" size="h-12 w-12" /><div class="min-w-0"><h3 class="truncate font-semibold text-slate-900">{{ $member->full_name }}</h3><p class="mt-1 text-sm text-slate-500">{{ $member->programme ?: 'PRS member' }}</p><p class="mt-2 text-sm font-medium text-blue-700">{{ $member->display_role }}</p></div></x-card>@empty<x-empty-state class="sm:col-span-2 lg:col-span-3" title="No members to feature yet" description="Member profiles will appear here when they are available." />@endforelse</div></section>
 
-        <div class="rounded-3xl border border-white/10 bg-white/5 p-6">
-            <h2 class="font-display text-2xl font-bold text-white">Upcoming Activities</h2>
-            <div class="mt-5 space-y-4">
-                @forelse ($latestActivities as $activity)
-                    <div class="rounded-2xl border border-white/10 bg-slate-950/50 p-4">
-                        <p class="font-semibold text-white">{{ $activity->title }}</p>
-                        <p class="text-sm text-slate-400">{{ $activity->activity_date->format('d M Y') }} · {{ ucfirst($activity->status) }}</p>
-                    </div>
-                @empty
-                    <p class="text-sm text-slate-400">No activities scheduled yet.</p>
-                @endforelse
-            </div>
-        </div>
-    </section>
+    <section class="grid gap-6 border-t border-slate-200 py-12 sm:py-16 lg:grid-cols-2"><div><p class="text-sm font-semibold text-blue-700">Stay informed</p><h2 class="mt-2 text-2xl font-bold text-slate-900">Meetings and activities</h2><p class="mt-3 max-w-md text-sm leading-6 text-slate-600">See what is happening across the PRS community and find an activity that interests you.</p><a href="{{ route('directory') }}" class="mt-5 inline-flex text-sm font-semibold text-blue-700 hover:underline">Browse all records</a></div><div class="grid gap-4 sm:grid-cols-2"><x-card><h3 class="font-semibold text-slate-900">Latest meetings</h3><div class="mt-4 space-y-4">@forelse($latestMeetings as $meeting)<div><p class="font-medium text-slate-900">{{ $meeting->title }}</p><p class="mt-1 text-sm text-slate-500">{{ $meeting->meeting_date->format('d M Y') }} · {{ $meeting->location ?: 'Venue to be confirmed' }}</p></div>@empty<p class="text-sm text-slate-500">No meetings recorded yet.</p>@endforelse</div></x-card><x-card><h3 class="font-semibold text-slate-900">Latest activities</h3><div class="mt-4 space-y-4">@forelse($latestActivities as $activity)<div><p class="font-medium text-slate-900">{{ $activity->title }}</p><p class="mt-1 text-sm text-slate-500">{{ $activity->activity_date->format('d M Y') }} · {{ ucfirst($activity->status) }}</p></div>@empty<p class="text-sm text-slate-500">No activities scheduled yet.</p>@endforelse</div></x-card></div></section>
+
+    <section class="rounded-2xl border border-blue-100 bg-blue-50 p-7 sm:flex sm:items-center sm:justify-between sm:p-10"><div><h2 class="text-2xl font-bold text-slate-900">Ready to explore PRS?</h2><p class="mt-2 text-sm leading-6 text-slate-600">Find a member, committee role, meeting, or upcoming activity.</p></div><a href="{{ route('directory') }}" class="ui-button-primary mt-5 sm:mt-0">Open directory</a></section>
 @endsection

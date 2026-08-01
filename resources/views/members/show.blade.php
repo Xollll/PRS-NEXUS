@@ -1,20 +1,4 @@
-@extends('layouts.app')
-
+@extends('layouts.app', ['title' => 'SiswaSphere | Member profile'])
 @section('content')
-    <div class="bg-white p-6 rounded shadow">
-        <h2 class="text-lg font-semibold mb-4">Member Details</h2>
-
-        <div class="mb-2"><strong>Full Name:</strong> {{ $member->full_name }}</div>
-        <div class="mb-2"><strong>Matric:</strong> {{ $member->matric_no }}</div>
-        <div class="mb-2"><strong>Email:</strong> {{ $member->email }}</div>
-        <div class="mb-2"><strong>Phone:</strong> {{ $member->phone }}</div>
-        <div class="mb-2"><strong>Programme:</strong> {{ $member->programme }}</div>
-        <div class="mb-2"><strong>Role:</strong> {{ $member->display_role }}</div>
-        <div class="mb-2"><strong>Status:</strong> {{ $member->status }}</div>
-
-        <div class="mt-4">
-            <a href="{{ route('admin.members.edit', $member) }}" class="bg-yellow-600 text-white px-3 py-1 rounded">Edit</a>
-            <a href="{{ route('admin.members.index') }}" class="ml-2">Back</a>
-        </div>
-    </div>
+<a href="{{ route('admin.members.index') }}" class="text-sm font-semibold text-blue-700 hover:underline">Back to members</a><section class="mt-5 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm"><div class="bg-blue-50 p-6 sm:p-8"><div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"><div class="flex items-center gap-4"><x-member-avatar :member="$member" size="h-20 w-20"/><div><p class="text-sm font-semibold text-blue-700">Member profile</p><h1 class="mt-1 text-3xl font-bold text-slate-900">{{ $member->full_name }}</h1><p class="mt-1 text-sm text-slate-600">{{ $member->matric_no }}</p></div></div><x-badge :variant="$member->status === 'active' ? 'active' : 'inactive'">{{ ucfirst($member->status) }}</x-badge></div></div><div class="grid gap-6 p-6 sm:grid-cols-2 sm:p-8"><section><h2 class="text-sm font-semibold text-slate-900">Contact information</h2><dl class="mt-3 space-y-3 text-sm"><div><dt class="text-slate-500">Email</dt><dd class="mt-1 font-medium text-slate-900">{{ $member->email }}</dd></div><div><dt class="text-slate-500">Phone</dt><dd class="mt-1 font-medium text-slate-900">{{ $member->phone ?: 'Not recorded' }}</dd></div></dl></section><section><h2 class="text-sm font-semibold text-slate-900">PRS and academic information</h2><dl class="mt-3 space-y-3 text-sm"><div><dt class="text-slate-500">Programme</dt><dd class="mt-1 font-medium text-slate-900">{{ $member->programme ?: 'Not recorded' }}</dd></div><div><dt class="text-slate-500">Organization role</dt><dd class="mt-1 font-medium text-blue-700">{{ $member->display_role }}</dd></div></dl></section></div><div class="flex flex-wrap gap-3 border-t border-slate-200 p-6 sm:px-8"><a href="{{ route('admin.members.edit', $member) }}" class="ui-button-primary">Edit member</a><a href="{{ route('admin.members.index') }}" class="ui-button-secondary">Back to members</a></div></section>
 @endsection

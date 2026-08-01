@@ -1,52 +1,6 @@
-@extends('layouts.app')
-
+@extends('layouts.app', ['title' => 'SiswaSphere | Members'])
 @section('content')
-    <div class="bg-white p-6 rounded shadow">
-        <div class="flex justify-between items-center mb-4">
-            <h2 class="text-lg font-semibold">Members</h2>
-            <a href="{{ route('admin.members.create') }}" class="bg-green-600 text-white px-3 py-1 rounded">New Member</a>
-        </div>
-
-        <form method="GET" class="mb-4">
-            <input type="text" name="q" value="{{ request('q') }}" placeholder="Search by name, email or matric" class="border px-2 py-1" />
-            <button class="ml-2 bg-gray-700 text-white px-2 py-1">Search</button>
-        </form>
-
-        <table class="w-full table-auto">
-            <thead>
-                <tr class="text-left">
-                    <th class="px-2">Name</th>
-                    <th class="px-2">Matric</th>
-                    <th class="px-2">Email</th>
-                    <th class="px-2">Role</th>
-                    <th class="px-2">Year</th>
-                    <th class="px-2">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($members as $m)
-                    <tr class="border-t">
-                        <td class="px-2 py-2">{{ $m->full_name }}</td>
-                        <td class="px-2">{{ $m->matric_no }}</td>
-                        <td class="px-2">{{ $m->email }}</td>
-                        <td class="px-2">{{ $m->display_role }}</td>
-                        <td class="px-2">{{ $m->programme }}</td>
-                        <td class="px-2">
-                            <a href="{{ route('admin.members.show', $m) }}" class="text-blue-600">View</a>
-                            <a href="{{ route('admin.members.edit', $m) }}" class="ml-2 text-yellow-600">Edit</a>
-                            <form action="{{ route('admin.members.destroy', $m) }}" method="POST" style="display:inline" data-confirm="Delete {{ $m->full_name }}? This cannot be undone.">
-                                @csrf
-                                @method('DELETE')
-                                <button class="ml-2 text-red-600">Delete</button>
-                            </form>
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-
-        <div class="mt-4">
-            {{ $members->withQueryString()->links() }}
-        </div>
-    </div>
+<section class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between"><div><p class="text-sm font-semibold text-blue-700">Organization</p><h1 class="mt-1 text-3xl font-bold text-slate-900">Members</h1><p class="mt-2 text-sm text-slate-600">Manage PRS profiles, roles, and portal access.</p></div><a href="{{ route('admin.members.create') }}" class="ui-button-primary">Add member</a></section>
+<section class="mt-6 ui-card"><form method="GET" class="flex flex-col gap-3 sm:flex-row"><div class="min-w-0 flex-1"><label for="member-search" class="ui-label">Search members</label><input id="member-search" type="search" name="q" value="{{ request('q') }}" placeholder="Name, email, or matric number" class="ui-input"></div><div class="flex items-end gap-3"><button class="ui-button-primary">Search</button>@if(request('q'))<a href="{{ route('admin.members.index') }}" class="ui-button-secondary">Clear</a>@endif</div></form></section>
+<section class="mt-6"><div class="mb-4 flex items-center justify-between"><h2 class="text-xl font-semibold text-slate-900">Member records</h2><p class="text-sm text-slate-500">{{ $members->total() }} {{ Str::plural('member', $members->total()) }}</p></div><div class="hidden lg:block"><x-table><thead><tr><th>Member</th><th>Academic details</th><th>PRS role</th><th>Status</th><th class="text-right">Actions</th></tr></thead><tbody>@forelse($members as $member)<tr><td><div class="flex items-center gap-3"><x-member-avatar :member="$member" size="h-10 w-10"/><div><p class="font-semibold text-slate-900">{{ $member->full_name }}</p><p class="text-slate-500">{{ $member->email }}</p></div></div></td><td><p>{{ $member->matric_no }}</p><p class="mt-1 text-slate-500">{{ $member->programme ?: 'Programme not set' }}</p></td><td class="font-medium text-blue-700">{{ $member->display_role }}</td><td><x-badge :variant="$member->status === 'active' ? 'active' : 'inactive'">{{ ucfirst($member->status) }}</x-badge></td><td><div class="flex justify-end gap-2"><a href="{{ route('admin.members.show', $member) }}" class="text-sm font-semibold text-blue-700 hover:underline">View</a><a href="{{ route('admin.members.edit', $member) }}" class="text-sm font-semibold text-blue-700 hover:underline">Edit</a><form action="{{ route('admin.members.destroy', $member) }}" method="POST" data-confirm="Delete {{ $member->full_name }}? This cannot be undone.">@csrf @method('DELETE')<button class="text-sm font-semibold text-red-700 hover:underline">Delete</button></form></div></td></tr>@empty<tr><td colspan="5"><x-empty-state title="No members found" description="Try a different search or add the first PRS member." /></td></tr>@endforelse</tbody></x-table></div><div class="space-y-3 lg:hidden">@forelse($members as $member)<x-card class="p-4"><div class="flex gap-3"><x-member-avatar :member="$member" size="h-11 w-11"/><div class="min-w-0 flex-1"><p class="font-semibold text-slate-900">{{ $member->full_name }}</p><p class="truncate text-sm text-slate-500">{{ $member->email }}</p><p class="mt-1 text-sm font-medium text-blue-700">{{ $member->display_role }}</p></div><x-badge :variant="$member->status === 'active' ? 'active' : 'inactive'">{{ ucfirst($member->status) }}</x-badge></div><p class="mt-3 text-sm text-slate-500">{{ $member->matric_no }} · {{ $member->programme ?: 'Programme not set' }}</p><div class="mt-4 flex gap-4"><a href="{{ route('admin.members.show', $member) }}" class="text-sm font-semibold text-blue-700">View</a><a href="{{ route('admin.members.edit', $member) }}" class="text-sm font-semibold text-blue-700">Edit</a></div></x-card>@empty<x-empty-state title="No members found" description="Try a different search or add the first PRS member." />@endforelse</div></section>@if($members->hasPages())<div class="mt-6">{{ $members->withQueryString()->links() }}</div>@endif
 @endsection

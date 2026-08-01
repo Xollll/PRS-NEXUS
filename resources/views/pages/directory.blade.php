@@ -1,79 +1,10 @@
-@extends('layouts.app', ['title' => 'SiswaSphere | Directory'])
+@extends('layouts.app', ['title' => 'SiswaSphere | PRS Directory'])
 
 @section('content')
-    <section class="rounded-[2rem] border border-white/10 bg-white/5 p-6 backdrop-blur lg:p-8">
-        <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-            <div>
-                <p class="text-sm uppercase tracking-[0.3em] text-amber-300/80">Public Directory</p>
-                <h1 class="font-display mt-3 text-4xl font-bold text-white lg:text-5xl">Search members, committees, and meetings.</h1>
-                <p class="mt-3 max-w-2xl text-slate-300">This page mirrors the document's view-only layer for fast lookups across the student organization.</p>
-            </div>
-            <form method="GET" action="{{ route('directory') }}" class="grid w-full max-w-xl gap-3 sm:grid-cols-2">
-                <input name="q" value="{{ $query }}" placeholder="Search name, role, title, or location" class="rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-3 text-white placeholder:text-slate-500 focus:border-amber-400/40 focus:outline-none sm:col-span-2">
-                <select name="meeting_filter" class="rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-3 text-white"><option value="">All meetings</option><option value="upcoming" @selected($meetingFilter === 'upcoming')>Upcoming meetings</option><option value="past" @selected($meetingFilter === 'past')>Past meetings</option></select>
-                <select name="activity_status" class="rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-3 text-white"><option value="">All activities</option><option value="planned" @selected($activityStatus === 'planned')>Planned activities</option><option value="ongoing" @selected($activityStatus === 'ongoing')>Ongoing activities</option><option value="completed" @selected($activityStatus === 'completed')>Completed activities</option></select>
-                <button class="rounded-2xl bg-amber-400 px-5 py-3 font-semibold text-slate-950 transition hover:bg-amber-300 sm:col-span-2">Apply Filters</button>
-            </form>
-        </div>
-    </section>
+    @php($resultCount = $members->count() + $committeePositions->count() + $meetings->count() + $activities->count())
+    <section class="max-w-3xl"><p class="text-sm font-semibold text-blue-700">PRS directory</p><h1 class="mt-2 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">Find people and campus activities</h1><p class="mt-3 text-base leading-7 text-slate-600">Search the PRS community, committee roles, meeting records, and activities from one directory.</p></section>
 
-    <div class="mt-8 grid gap-6 xl:grid-cols-3">
-        <section class="rounded-3xl border border-white/10 bg-slate-900/80 p-6">
-            <h2 class="font-display text-2xl font-bold text-white">Members</h2>
-            <div class="mt-5 space-y-4">
-                @forelse ($members as $member)
-                    <article class="rounded-2xl border border-white/10 bg-white/5 p-4">
-                        <div class="flex items-center gap-3"><x-member-avatar :member="$member" size="h-11 w-11" /><div><p class="font-semibold text-white">{{ $member->full_name }}</p><p class="text-sm text-slate-400">{{ $member->matric_no }} · {{ $member->programme ?? 'Programme not set' }}</p><p class="mt-2 text-sm text-amber-200">{{ $member->display_role }}</p></div></div>
-                    </article>
-                @empty
-                    <p class="text-sm text-slate-400">No matching members found.</p>
-                @endforelse
-            </div>
-        </section>
-
-        <section class="rounded-3xl border border-white/10 bg-slate-900/80 p-6">
-            <h2 class="font-display text-2xl font-bold text-white">Committee Structure</h2>
-            <div class="mt-5 space-y-4">
-                @forelse ($committeePositions as $position)
-                    <article class="rounded-2xl border border-white/10 bg-white/5 p-4">
-                        <p class="font-semibold text-white">{{ $position->title }}</p>
-                        <p class="text-sm text-slate-400">{{ ucfirst($position->category) }}</p>
-                        <p class="mt-2 text-sm text-slate-300">{{ $position->description ?? 'No description available.' }}</p>
-                    </article>
-                @empty
-                    <p class="text-sm text-slate-400">No committee positions found.</p>
-                @endforelse
-            </div>
-        </section>
-
-        <section class="rounded-3xl border border-white/10 bg-slate-900/80 p-6">
-            <h2 class="font-display text-2xl font-bold text-white">Meeting History</h2>
-            <div class="mt-5 space-y-4">
-                @forelse ($meetings as $meeting)
-                    <article class="rounded-2xl border border-white/10 bg-white/5 p-4">
-                        <p class="font-semibold text-white">{{ $meeting->title }}</p>
-                        <p class="text-sm text-slate-400">{{ $meeting->meeting_date->format('d M Y') }} · {{ $meeting->location ?? 'TBA' }}</p>
-                        <p class="mt-2 text-sm text-slate-300">{{ $meeting->summary ?? 'No summary available.' }}</p>
-                    </article>
-                @empty
-                    <p class="text-sm text-slate-400">No meeting records found.</p>
-                @endforelse
-            </div>
-        </section>
+    <div class="mt-8 grid gap-6 lg:grid-cols-[17rem_minmax(0,1fr)]"><aside class="h-fit rounded-xl border border-slate-200 bg-white p-5 shadow-sm lg:sticky lg:top-24"><form method="GET" action="{{ route('directory') }}"><div><label for="directory-search" class="ui-label">Search directory</label><input id="directory-search" name="q" value="{{ $query }}" placeholder="Name, role, title, or location" class="ui-input"></div><fieldset class="mt-5 border-t border-slate-200 pt-5"><legend class="text-sm font-semibold text-slate-900">Filter results</legend><div class="mt-4"><label for="meeting-filter" class="ui-label">Meetings</label><select id="meeting-filter" name="meeting_filter" class="ui-select"><option value="">All meetings</option><option value="upcoming" @selected($meetingFilter === 'upcoming')>Upcoming</option><option value="past" @selected($meetingFilter === 'past')>Past</option></select></div><div class="mt-4"><label for="activity-status" class="ui-label">Activities</label><select id="activity-status" name="activity_status" class="ui-select"><option value="">All activities</option><option value="planned" @selected($activityStatus === 'planned')>Planned</option><option value="ongoing" @selected($activityStatus === 'ongoing')>Ongoing</option><option value="completed" @selected($activityStatus === 'completed')>Completed</option></select></div></fieldset><button class="ui-button-primary mt-6 w-full">Apply filters</button>@if($query !== '' || $meetingFilter !== '' || $activityStatus !== '')<a href="{{ route('directory') }}" class="mt-3 block text-center text-sm font-semibold text-blue-700 hover:underline">Clear all filters</a>@endif</form></aside>
+        <div><div class="flex items-center justify-between"><h2 class="text-xl font-semibold text-slate-900">Results</h2><p class="text-sm text-slate-500">{{ $resultCount }} {{ Str::plural('result', $resultCount) }}</p></div><div class="mt-5 space-y-6"><section><div class="flex items-center justify-between"><h3 class="text-lg font-semibold text-slate-900">Members</h3><x-badge>{{ $members->count() }}</x-badge></div><div class="mt-3 grid gap-3 sm:grid-cols-2">@forelse($members as $member)<x-card class="flex items-center gap-3 p-4"><x-member-avatar :member="$member" size="h-10 w-10" /><div class="min-w-0"><p class="truncate font-semibold text-slate-900">{{ $member->full_name }}</p><p class="mt-1 text-sm text-slate-500">{{ $member->programme ?: 'Programme not set' }}</p><p class="mt-1 text-sm font-medium text-blue-700">{{ $member->display_role }}</p></div></x-card>@empty<x-empty-state class="sm:col-span-2" title="No members found" description="Try a different search term." />@endforelse</div></section><section><div class="flex items-center justify-between"><h3 class="text-lg font-semibold text-slate-900">Committee roles</h3><x-badge>{{ $committeePositions->count() }}</x-badge></div><div class="mt-3 grid gap-3 sm:grid-cols-2">@forelse($committeePositions as $position)<x-card class="p-4"><p class="font-semibold text-slate-900">{{ $position->title }}</p><p class="mt-1 text-sm font-medium text-blue-700">{{ ucfirst($position->category) }}</p><p class="mt-2 text-sm leading-6 text-slate-600">{{ $position->description ?: 'No description is available.' }}</p></x-card>@empty<x-empty-state class="sm:col-span-2" title="No committee roles found" description="Try a different search term." />@endforelse</div></section><section><div class="flex items-center justify-between"><h3 class="text-lg font-semibold text-slate-900">Meetings</h3><x-badge>{{ $meetings->count() }}</x-badge></div><div class="mt-3 space-y-3">@forelse($meetings as $meeting)<x-card class="p-4"><div class="flex flex-wrap items-start justify-between gap-2"><p class="font-semibold text-slate-900">{{ $meeting->title }}</p><x-badge :variant="$meeting->meeting_date->isFuture() || $meeting->meeting_date->isToday() ? 'upcoming' : 'inactive'">{{ $meeting->meeting_date->isFuture() || $meeting->meeting_date->isToday() ? 'Upcoming' : 'Past' }}</x-badge></div><p class="mt-2 text-sm text-slate-500">{{ $meeting->meeting_date->format('d M Y') }} · {{ $meeting->location ?: 'Venue to be confirmed' }}</p>@if($meeting->summary)<p class="mt-2 text-sm leading-6 text-slate-600">{{ $meeting->summary }}</p>@endif</x-card>@empty<x-empty-state title="No meetings found" description="Try changing the meeting filter." />@endforelse</div></section><section><div class="flex items-center justify-between"><h3 class="text-lg font-semibold text-slate-900">Activities</h3><x-badge>{{ $activities->count() }}</x-badge></div><div class="mt-3 grid gap-3 sm:grid-cols-2">@forelse($activities as $activity)<x-card class="p-4"><div class="flex flex-wrap items-start justify-between gap-2"><p class="font-semibold text-slate-900">{{ $activity->title }}</p><x-badge :variant="$activity->status === 'completed' ? 'success' : ($activity->status === 'ongoing' ? 'info' : 'upcoming')">{{ ucfirst($activity->status) }}</x-badge></div><p class="mt-2 text-sm text-slate-500">{{ $activity->activity_date->format('d M Y') }} · {{ $activity->location ?: 'Venue to be confirmed' }}</p>@if($activity->description)<p class="mt-2 text-sm leading-6 text-slate-600">{{ $activity->description }}</p>@endif</x-card>@empty<x-empty-state class="sm:col-span-2" title="No activities found" description="Try changing the activity filter." />@endforelse</div></section></div></div>
     </div>
-
-    <section class="mt-8 rounded-3xl border border-white/10 bg-white/5 p-6">
-        <h2 class="font-display text-2xl font-bold text-white">Upcoming Activities</h2>
-        <div class="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-            @forelse ($activities as $activity)
-                <article class="rounded-2xl border border-white/10 bg-slate-950/50 p-4">
-                    <p class="font-semibold text-white">{{ $activity->title }}</p>
-                    <p class="text-sm text-slate-400">{{ $activity->activity_date->format('d M Y') }} · {{ $activity->location ?? 'TBA' }}</p>
-                    <p class="mt-2 text-sm text-slate-300">{{ $activity->description ?? 'No description available.' }}</p>
-                </article>
-            @empty
-                <p class="text-sm text-slate-400">No activities scheduled yet.</p>
-            @endforelse
-        </div>
-    </section>
 @endsection

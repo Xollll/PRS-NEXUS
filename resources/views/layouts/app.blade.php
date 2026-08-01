@@ -3,70 +3,39 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ $title ?? 'SiswaSphere' }}</title>
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=space-grotesk:400,500,700|inter:400,500,600,700" rel="stylesheet">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="min-h-screen bg-slate-950 text-slate-100 antialiased">
-    <div class="pointer-events-none fixed inset-0 overflow-hidden">
-        <div class="absolute -left-32 top-0 h-96 w-96 rounded-full bg-amber-500/20 blur-3xl"></div>
-        <div class="absolute right-0 top-48 h-96 w-96 rounded-full bg-cyan-500/20 blur-3xl"></div>
-        <div class="absolute bottom-0 left-1/3 h-72 w-72 rounded-full bg-fuchsia-500/10 blur-3xl"></div>
-    </div>
+<body class="min-h-screen bg-slate-50 text-slate-900 antialiased">
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-white focus:px-4 focus:py-2 focus:font-semibold focus:text-blue-700 focus:shadow-lg">Skip to content</a>
+    @php($isAdmin = request()->session()->has('admin_user_id'))
+    @php($isMember = request()->session()->has('member_user_id'))
+    @php($navMember = $isMember ? \App\Models\User::with('member')->find(request()->session()->get('member_user_id'))?->member : null)
 
-    <header class="relative z-10 border-b border-white/10 bg-slate-950/70 backdrop-blur">
-        <div class="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8">
-            <a href="{{ route('home') }}" class="flex items-center gap-3">
-                <div class="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-amber-400 to-orange-600 font-bold text-slate-950 shadow-lg shadow-amber-500/20">SS</div>
-                <div>
-                    <p class="font-display text-lg font-bold tracking-wide">SiswaSphere</p>
-                    <p class="text-xs uppercase tracking-[0.28em] text-slate-400">UPSI Club Administration</p>
-                </div>
-            </a>
-
-            <nav class="flex items-center gap-2 text-sm">
-                <a class="rounded-full px-4 py-2 text-slate-300 transition hover:bg-white/5 hover:text-white" href="{{ route('home') }}">Home</a>
-                <a class="rounded-full px-4 py-2 text-slate-300 transition hover:bg-white/5 hover:text-white" href="{{ route('directory') }}">Directory</a>
-                @if(session('admin_user_id'))
-                    <a class="rounded-full px-4 py-2 text-slate-300 transition hover:bg-white/5 hover:text-white" href="{{ route('admin.dashboard') }}">Dashboard</a>
-                    <form method="POST" action="{{ route('admin.logout') }}">
-                        @csrf
-                        <button class="rounded-full border border-amber-400/30 bg-amber-400/10 px-4 py-2 font-medium text-amber-200 transition hover:bg-amber-400/20">Logout</button>
-                    </form>
-                @elseif(session('member_user_id'))
-                    <a class="rounded-full px-4 py-2 text-slate-300 transition hover:bg-white/5 hover:text-white" href="{{ route('member.dashboard') }}">My Portal</a>
-                    <form method="POST" action="{{ route('member.logout') }}">
-                        @csrf
-                        <button class="rounded-full border border-cyan-400/30 bg-cyan-400/10 px-4 py-2 font-medium text-cyan-100 transition hover:bg-cyan-400/20">Logout</button>
-                    </form>
-                @else
-                    <a class="rounded-full px-4 py-2 text-slate-300 transition hover:bg-white/5 hover:text-white" href="{{ route('member.login') }}">Member Login</a>
-                    <a class="rounded-full border border-white/10 bg-white/5 px-4 py-2 font-medium text-white transition hover:bg-white/10" href="{{ route('admin.login') }}">Admin Login</a>
-                @endif
-            </nav>
+    @if($isAdmin || $isMember)
+        <div class="min-h-screen lg:flex">
+            <aside class="hidden w-64 shrink-0 border-r border-slate-200 bg-white lg:fixed lg:inset-y-0 lg:flex lg:flex-col" aria-label="{{ $isAdmin ? 'Administrator' : 'Member' }} navigation">
+                <a href="{{ $isAdmin ? route('admin.dashboard') : route('member.dashboard') }}" class="flex items-center gap-3 border-b border-slate-200 px-5 py-5"><span class="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-600 text-sm font-bold tracking-wide text-white">SS</span><span><span class="block font-bold text-slate-900">SiswaSphere</span><span class="block text-xs text-slate-500">{{ $isAdmin ? 'Administrator portal' : 'Member portal' }}</span></span></a>
+                <nav class="flex-1 space-y-6 overflow-y-auto p-4">
+                    @if($isAdmin)
+                        <div><p class="px-3 text-xs font-semibold uppercase tracking-wide text-slate-400">Overview</p><x-sidebar-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">Dashboard</x-sidebar-link></div>
+                        <div><p class="px-3 text-xs font-semibold uppercase tracking-wide text-slate-400">Organization</p><x-sidebar-link :href="route('admin.members.index')" :active="request()->routeIs('admin.members.*')">Members</x-sidebar-link><x-sidebar-link :href="route('admin.committee-positions.index')" :active="request()->routeIs('admin.committee-positions.*')">Committee positions</x-sidebar-link></div>
+                        <div><p class="px-3 text-xs font-semibold uppercase tracking-wide text-slate-400">Events</p><x-sidebar-link :href="route('admin.meetings.index')" :active="request()->routeIs('admin.meetings.*')">Meetings</x-sidebar-link><x-sidebar-link :href="route('admin.activities.index')" :active="request()->routeIs('admin.activities.*')">Activities</x-sidebar-link></div>
+                    @else
+                        <div><p class="px-3 text-xs font-semibold uppercase tracking-wide text-slate-400">My portal</p><x-sidebar-link :href="route('member.dashboard')" :active="request()->routeIs('member.dashboard')">Dashboard</x-sidebar-link><x-sidebar-link :href="route('member.profile.edit')" :active="request()->routeIs('member.profile.*')">My profile</x-sidebar-link></div>
+                    @endif
+                </nav>
+                <div class="border-t border-slate-200 p-4"><p class="px-3 text-xs font-semibold uppercase tracking-wide text-slate-400">Account</p><form method="POST" action="{{ $isAdmin ? route('admin.logout') : route('member.logout') }}">@csrf<button class="ui-nav-link mt-2 w-full">Log out</button></form></div>
+            </aside>
+            <div class="min-w-0 flex-1 lg:pl-64">
+                <header class="sticky top-0 z-30 border-b border-slate-200 bg-white/95 backdrop-blur"><div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8"><div><p class="text-sm font-semibold text-slate-900">{{ $isAdmin ? 'Administration' : 'Member portal' }}</p><p class="text-xs text-slate-500">Pembimbing Rakan Siswa</p></div><div class="hidden items-center sm:flex">@if($isMember && $navMember)<details class="group relative"><summary class="flex list-none items-center gap-3 rounded-xl px-1 py-1 transition hover:bg-slate-50 focus:outline-none [&::-webkit-details-marker]:hidden" aria-label="Open account menu"><x-member-avatar :member="$navMember" size="h-9 w-9" /><span class="hidden min-w-0 text-left sm:block"><span class="block max-w-36 truncate text-sm font-semibold text-slate-900">{{ $navMember->full_name }}</span><span class="hidden max-w-36 truncate text-xs text-slate-500 lg:block">{{ $navMember->display_role }}</span></span><svg viewBox="0 0 20 20" class="size-4 shrink-0 text-slate-400 transition group-open:rotate-180" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 8 4 4 4-4" /></svg></summary><nav class="absolute right-0 z-40 mt-3 w-48 rounded-xl border border-slate-200 bg-white p-2 shadow-lg" aria-label="Member account menu"><a href="{{ route('member.profile.edit') }}" class="ui-nav-link">My Profile</a><div class="my-2 border-t border-slate-200"></div><form method="POST" action="{{ route('member.logout') }}">@csrf<button class="ui-nav-link w-full">Log Out</button></form></nav></details>@else<span class="flex h-9 w-9 items-center justify-center rounded-full bg-blue-100 text-sm font-semibold text-blue-700">A</span>@endif</div><details class="relative sm:hidden">@if($isMember && $navMember)<summary class="flex list-none rounded-full transition hover:ring-2 hover:ring-blue-200 focus:outline-none [&::-webkit-details-marker]:hidden" aria-label="Open member navigation"><x-member-avatar :member="$navMember" size="h-9 w-9" /></summary>@else<summary class="flex list-none items-center gap-2 rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 [&::-webkit-details-marker]:hidden">Menu</summary>@endif<nav class="absolute right-0 z-40 mt-2 w-64 rounded-xl border border-slate-200 bg-white p-2 shadow-lg" aria-label="Mobile portal navigation">@if($isAdmin)<x-sidebar-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">Dashboard</x-sidebar-link><x-sidebar-link :href="route('admin.members.index')" :active="request()->routeIs('admin.members.*')">Members</x-sidebar-link><x-sidebar-link :href="route('admin.committee-positions.index')" :active="request()->routeIs('admin.committee-positions.*')">Committee positions</x-sidebar-link><x-sidebar-link :href="route('admin.meetings.index')" :active="request()->routeIs('admin.meetings.*')">Meetings</x-sidebar-link><x-sidebar-link :href="route('admin.activities.index')" :active="request()->routeIs('admin.activities.*')">Activities</x-sidebar-link>@else<x-sidebar-link :href="route('member.dashboard')" :active="request()->routeIs('member.dashboard')">Dashboard</x-sidebar-link><x-sidebar-link :href="route('member.profile.edit')" :active="request()->routeIs('member.profile.*')">My profile</x-sidebar-link>@endif<div class="my-2 border-t border-slate-200"></div><form method="POST" action="{{ $isAdmin ? route('admin.logout') : route('member.logout') }}">@csrf<button class="ui-nav-link w-full">Log out</button></form></nav></details></div></header>
+                <main id="main-content" class="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8"><x-alert /><x-alert type="error" :messages="$errors->all()" />@yield('content')</main>
+            </div>
         </div>
-    </header>
-
-    <main class="relative z-10 mx-auto max-w-7xl px-6 py-10 lg:px-8 lg:py-14">
-        @if (session('success'))
-            <div class="mb-6 rounded-2xl border border-emerald-400/30 bg-emerald-400/10 px-5 py-4 text-emerald-100">
-                {{ session('success') }}
-            </div>
-        @endif
-
-        @if ($errors->any())
-            <div class="mb-6 rounded-2xl border border-red-400/30 bg-red-400/10 px-5 py-4 text-red-100">
-                <ul class="space-y-1">
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-
-        @yield('content')
-    </main>
+    @else
+        <header class="sticky top-0 z-30 border-b border-slate-200 bg-white/95 backdrop-blur"><div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8"><a href="{{ route('home') }}" class="flex items-center gap-3 rounded-lg"><span class="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-600 text-sm font-bold tracking-wide text-white">SS</span><span><span class="block text-base font-bold text-slate-900">SiswaSphere</span><span class="hidden text-xs text-slate-500 sm:block">Pembimbing Rakan Siswa</span></span></a><nav class="hidden items-center gap-1 lg:flex" aria-label="Public navigation"><a href="{{ route('home') }}#about" class="ui-nav-link">About PRS</a><a href="{{ route('home') }}#community" class="ui-nav-link">Community</a><a href="{{ route('directory') }}" class="{{ request()->routeIs('directory') ? 'ui-nav-link ui-nav-link-active' : 'ui-nav-link' }}">Directory</a><a href="{{ route('member.login') }}" class="ui-nav-link">Member login</a><a href="{{ route('admin.login') }}" class="ui-button-primary">Admin login</a></nav><details class="relative lg:hidden"><summary class="flex list-none items-center gap-2 rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 [&::-webkit-details-marker]:hidden">Menu</summary><nav class="absolute right-0 z-40 mt-2 w-60 rounded-xl border border-slate-200 bg-white p-2 shadow-lg" aria-label="Mobile public navigation"><a href="{{ route('home') }}#about" class="ui-nav-link">About PRS</a><a href="{{ route('home') }}#community" class="ui-nav-link">Community</a><a href="{{ route('directory') }}" class="ui-nav-link">Directory</a><a href="{{ route('member.login') }}" class="ui-nav-link">Member login</a><a href="{{ route('admin.login') }}" class="mt-1 block rounded-lg bg-blue-600 px-3 py-2.5 text-sm font-semibold text-white hover:bg-blue-700">Admin login</a></nav></details></div></header>
+        <main id="main-content" class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8"><x-alert /><x-alert type="error" :messages="$errors->all()" />@yield('content')</main>
+        <footer class="mt-12 border-t border-slate-200 bg-white"><div class="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-8 text-sm text-slate-500 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8"><p>© {{ now()->year }} SiswaSphere · Pembimbing Rakan Siswa, UPSI</p><div class="flex gap-4"><a href="{{ route('home') }}#about" class="hover:text-blue-700">About PRS</a><a href="{{ route('directory') }}" class="hover:text-blue-700">Directory</a><a href="{{ route('member.login') }}" class="hover:text-blue-700">Member login</a></div></div></footer>
+    @endif
 </body>
 </html>
