@@ -18,12 +18,14 @@ class MemberController extends Controller
 
         if ($request->filled('q')) {
             $q = $request->input('q');
-            $query->where('full_name', 'like', "%{$q}%")
-                  ->orWhere('matric_no', 'like', "%{$q}%")
-                  ->orWhere('email', 'like', "%{$q}%");
+            $query->where(function ($members) use ($q): void {
+                $members->where('full_name', 'like', "%{$q}%")
+                    ->orWhere('matric_no', 'like', "%{$q}%")
+                    ->orWhere('email', 'like', "%{$q}%");
+            });
         }
 
-        $members = $query->with('committeePosition')->orderBy('full_name')->paginate(20);
+        $members = $query->with('committeePosition')->orderBy('full_name')->paginate(20)->withQueryString();
 
         return view('members.index', compact('members'));
     }

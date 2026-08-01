@@ -215,4 +215,20 @@
     .ui-nav-link-active {
         @apply bg-blue-50 text-blue-700 hover:bg-blue-50 hover:text-blue-700;
     }
+
+    header details.group {
+        width: fit-content;
+    }
+
+    header details.group > summary {
+        @apply inline-flex w-fit items-center gap-2 rounded-lg px-1.5 py-1;
+    }
+
+    header details.group > summary > span {
+        @apply max-w-32 leading-tight;
+    }
+
+    header details.group > summary > svg {
+        @apply size-3.5;
+    }
 }

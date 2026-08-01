@@ -105,7 +105,9 @@ class PortalController extends Controller
     {
         try {
             return $callback();
-        } catch (Throwable) {
+        } catch (Throwable $exception) {
+            report($exception);
+
             return $default;
         }
     }

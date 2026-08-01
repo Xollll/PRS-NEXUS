@@ -3,7 +3,7 @@
 @section('content')
     <section class="mx-auto grid max-w-5xl overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm lg:grid-cols-[0.9fr_1.1fr]">
         <div class="bg-blue-700 p-7 text-white sm:p-10 lg:p-12">
-            <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-white text-sm font-bold tracking-wide text-blue-700">SS</div>
+            <img src="{{ asset('icon/prs.jpg') }}" alt="PRS logo" class="h-12 w-12 rounded-xl object-cover ring-1 ring-white/30">
             <p class="mt-10 text-sm font-semibold text-blue-100">PRS administration</p>
             <h1 class="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">A clear view of your student community.</h1>
             <p class="mt-4 max-w-sm text-sm leading-6 text-blue-100">Securely manage PRS members, committee roles, meetings, and activities from the SiswaSphere administration portal.</p>
