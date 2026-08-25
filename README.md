@@ -1,61 +1,192 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+<div align="center">
+  <img src="public/icon/prs.jpg" alt="PRS NEXUS logo" width="112">
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+  # PRS NEXUS
 
-## About Laravel
+  **An integrated peer management and support system for Pembimbing Rakan Siswa.**
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+  A modern university portal for connecting members, coordinating committees,
+  and keeping meetings and activities in one accessible place.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+  [![Laravel](https://img.shields.io/badge/Laravel-12-FF2D20?logo=laravel&logoColor=white)](https://laravel.com)
+  [![PHP](https://img.shields.io/badge/PHP-8.2+-777BB4?logo=php&logoColor=white)](https://www.php.net)
+  [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
+  [![License](https://img.shields.io/badge/License-MIT-22C55E)](https://opensource.org/licenses/MIT)
+</div>
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## About the project
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+PRS NEXUS replaces scattered spreadsheets and manual records with a single platform for the PRS community at Universiti Pendidikan Sultan Idris (UPSI). Visitors can discover the organization through a public portal, members can manage their profiles and schedules, and administrators can maintain organizational records from a focused dashboard.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### What it provides
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- A public landing page with community statistics and recent updates
+- A searchable directory for members, committee roles, meetings, and activities
+- A dedicated member portal with membership status, schedules, and profile management
+- An administrative dashboard with summaries, recent records, and quick actions
+- Full management of members, committee positions, meetings, and activities
+- Session-based access control for member and administrator areas
+- Responsive, accessible interfaces built around reusable Blade components
 
-## Laravel Sponsors
+## User experiences
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+| Role | Capabilities |
+| --- | --- |
+| Public visitor | Explore PRS, browse the directory, and view community information |
+| PRS member | Sign in, review upcoming meetings and activities, and update a personal profile |
+| Administrator | Monitor the organization and manage members, committees, meetings, and activities |
 
-### Premium Partners
+## Built with
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+| Layer | Technology |
+| --- | --- |
+| Application | Laravel 12 · PHP 8.2+ |
+| Interface | Blade · Tailwind CSS 4 · JavaScript |
+| Assets | Vite 7 |
+| Data | SQLite by default; Laravel-supported databases are configurable |
+| Testing | PHPUnit 11 · Laravel HTTP tests |
+
+## Getting started
+
+### Prerequisites
+
+Make sure the following are installed:
+
+- PHP 8.2 or newer with the extensions required by Laravel
+- Composer 2
+- Node.js 20 or newer and npm
+- SQLite, or another database supported by Laravel
+
+### Installation
+
+```bash
+git clone https://github.com/Xollll/Siswa-Sphere.git
+cd Siswa-Sphere
+
+composer install
+npm install
+
+cp .env.example .env
+php artisan key:generate
+```
+
+Create the default SQLite database:
+
+```bash
+# macOS / Linux
+touch database/database.sqlite
+
+# Windows PowerShell
+New-Item database/database.sqlite -ItemType File -ErrorAction SilentlyContinue
+```
+
+Prepare the application and sample data:
+
+```bash
+php artisan migrate --seed
+php artisan storage:link
+npm run build
+```
+
+Start the local development environment:
+
+```bash
+composer run dev
+```
+
+The application will be available at [http://localhost:8000](http://localhost:8000). The development command starts the web server, queue listener, log viewer, and Vite together.
+
+> If you use Laragon, place the project in its `www` directory, complete the same installation steps, and open the local site URL generated by Laragon.
+
+## Demo accounts
+
+After running `php artisan migrate --seed`, use these credentials:
+
+| Portal | Email | Password |
+| --- | --- | --- |
+| Administrator | `admin@prsnexus.test` | `password` |
+| Member | `naif@example.test` | `password` |
+
+Additional seeded member accounts use `zal@example.test` and `ariq@example.test`, also with the password `password`.
+
+> Demo credentials are intended for local development only. Change or remove them before deploying the application.
+
+## Useful commands
+
+```bash
+# Run the automated test suite
+composer test
+
+# Format PHP source files
+./vendor/bin/pint
+
+# Build production frontend assets
+npm run build
+
+# Reset the database and reload sample records
+php artisan migrate:fresh --seed
+```
+
+## Project structure
+
+```text
+app/
+├── Http/Controllers/     # Public, member, and admin request handling
+├── Http/Middleware/      # Portal access checks
+├── Http/Requests/        # Form validation
+└── Models/               # Application data models
+database/
+├── migrations/           # Database schema
+├── factories/            # Test data factories
+└── seeders/              # Local demonstration data
+resources/
+├── css/                  # Tailwind theme and shared UI styles
+├── js/                   # Frontend entry point
+└── views/                # Blade pages, layouts, and components
+routes/web.php            # Public and authenticated web routes
+tests/Feature/            # End-to-end application behavior tests
+```
+
+## Configuration
+
+The included `.env.example` uses SQLite and database-backed sessions, cache, and queues. To use MySQL, update the database section in `.env`:
+
+```dotenv
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=prs_nexus
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+Then create the database and run `php artisan migrate --seed`.
+
+## Testing
+
+The feature suite covers public portal access, member and admin authentication, and management workflows for members, committee positions, meetings, and activities.
+
+```bash
+php artisan test
+```
+
+Tests use an isolated in-memory SQLite database as configured in `phpunit.xml`.
 
 ## Contributing
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+1. Fork the repository and create a feature branch.
+2. Make a focused change and add or update tests where appropriate.
+3. Run `composer test`, `./vendor/bin/pint`, and `npm run build`.
+4. Open a pull request describing the problem and the chosen solution.
 
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Please keep the interface consistent with the project principles in [`docs/ui-guidelines.md`](docs/ui-guidelines.md).
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+This project is open-source software licensed under the [MIT License](https://opensource.org/licenses/MIT).
+
+<div align="center">
+  Built to support a stronger, more connected student community.
+</div>
