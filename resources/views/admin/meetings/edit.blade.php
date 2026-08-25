@@ -1,4 +1,4 @@
-@extends('layouts.app', ['title' => 'SiswaSphere | Edit meeting'])
+@extends('layouts.app', ['title' => 'PRS NEXUS | Edit meeting'])
 
 @section('content')
     @php($isUpcoming = $meeting->meeting_date->isToday() || $meeting->meeting_date->isFuture())

@@ -1,4 +1,4 @@
-@extends('layouts.app', ['title' => 'SiswaSphere | Meetings'])
+@extends('layouts.app', ['title' => 'PRS NEXUS | Meetings'])
 
 @section('content')
     <section class="flex flex-col gap-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:flex-row sm:items-end sm:justify-between"><div><p class="text-sm font-semibold text-blue-700">Events</p><h1 class="mt-1 text-3xl font-bold tracking-tight text-slate-900">Meetings</h1><p class="mt-2 text-sm text-slate-600">Plan and maintain the PRS meeting schedule.</p></div><a href="{{ route('admin.meetings.create') }}" class="ui-button-primary w-full sm:w-auto">Schedule meeting</a></section>

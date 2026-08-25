@@ -1,4 +1,4 @@
-@extends('layouts.app', ['title' => 'SiswaSphere | PRS Directory'])
+@extends('layouts.app', ['title' => 'PRS NEXUS | PRS Directory'])
 
 @section('content')
     @php($resultCount = $members->count() + $committeePositions->count() + $meetings->count() + $activities->count())

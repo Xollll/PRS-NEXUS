@@ -1,4 +1,4 @@
-@extends('layouts.app', ['title' => 'SiswaSphere | Admin dashboard'])
+@extends('layouts.app', ['title' => 'PRS NEXUS | Admin dashboard'])
 
 @section('content')
     <section class="flex flex-col gap-5 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:flex-row sm:items-end sm:justify-between">

@@ -1,4 +1,4 @@
-@extends('layouts.app', ['title' => 'SiswaSphere | Edit activity'])
+@extends('layouts.app', ['title' => 'PRS NEXUS | Edit activity'])
 
 @section('content')
     @php($badgeVariant = $activity->status === 'completed' ? 'success' : ($activity->status === 'ongoing' ? 'info' : 'upcoming'))

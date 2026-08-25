@@ -1,4 +1,4 @@
-# SiswaSphere UI Guidelines
+# PRS NEXUS UI Guidelines
 
 ## Design Principle
 
@@ -21,7 +21,7 @@ Do not preserve the current structure simply because it already exists.
 
 ## Product Mindset
 
-Design every page as if SiswaSphere were a real commercial university platform.
+Design every page as if PRS NEXUS were a real commercial university platform.
 
 Do not expose database entities directly to users.
 
@@ -31,7 +31,7 @@ Every redesign should improve usability, reduce unnecessary steps, and create a 
 
 ## Project
 
-SiswaSphere is a Student Organization Management System for Pembimbing Rakan Siswa (PRS).
+PRS NEXUS is an Integrated Peer Management and Support System for PRS.
 
 The redesign should feel like a modern university portal rather than a CRUD management system.
 
@@ -47,7 +47,7 @@ Every redesign should prioritize usability over simply making pages look modern.
 
 # Design Philosophy
 
-SiswaSphere should be:
+PRS NEXUS should be:
 
 - Clean
 - Professional

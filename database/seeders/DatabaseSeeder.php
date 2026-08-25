@@ -18,10 +18,10 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         User::query()->updateOrCreate(
-            ['email' => 'admin@siswasphere.test'],
+            ['email' => 'admin@prsnexus.test'],
             [
                 'role' => 'admin',
-                'name' => 'SiswaSphere Admin',
+                'name' => 'PRS NEXUS Admin',
                 'password' => Hash::make('password'),
             ]
         );

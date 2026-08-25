@@ -1,4 +1,4 @@
-@extends('layouts.app', ['title' => 'SiswaSphere | Administrator sign in'])
+@extends('layouts.app', ['title' => 'PRS NEXUS | Administrator sign in'])
 
 @section('content')
     <section class="mx-auto grid max-w-5xl overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm lg:grid-cols-[0.9fr_1.1fr]">
@@ -6,7 +6,7 @@
             <img src="{{ asset('icon/prs.jpg') }}" alt="PRS logo" class="h-12 w-12 rounded-xl object-cover ring-1 ring-white/30">
             <p class="mt-10 text-sm font-semibold text-blue-100">PRS administration</p>
             <h1 class="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">A clear view of your student community.</h1>
-            <p class="mt-4 max-w-sm text-sm leading-6 text-blue-100">Securely manage PRS members, committee roles, meetings, and activities from the SiswaSphere administration portal.</p>
+            <p class="mt-4 max-w-sm text-sm leading-6 text-blue-100">Securely manage PRS members, committee roles, meetings, and activities from the PRS NEXUS administration portal.</p>
             <div class="mt-10 space-y-4 border-t border-blue-400/40 pt-6 text-sm text-blue-50">
                 <div><p class="font-semibold text-white">For authorized PRS administrators</p><p class="mt-1 leading-6 text-blue-100">Use the email address and password assigned to your administrator account.</p></div>
                 <a href="{{ route('home') }}" class="inline-flex font-semibold text-white underline decoration-blue-300 underline-offset-4 hover:decoration-white">Return to the public website</a>

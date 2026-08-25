@@ -1,4 +1,4 @@
-@extends('layouts.app', ['title' => 'SiswaSphere | Edit committee position'])
+@extends('layouts.app', ['title' => 'PRS NEXUS | Edit committee position'])
 
 @section('content')
     <a href="{{ route('admin.committee-positions.index') }}" class="text-sm font-semibold text-blue-700 hover:underline">Back to committee positions</a>

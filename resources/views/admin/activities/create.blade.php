@@ -1,4 +1,4 @@
-@extends('layouts.app', ['title' => 'SiswaSphere | Add activity'])
+@extends('layouts.app', ['title' => 'PRS NEXUS | Add activity'])
 
 @section('content')
     <section class="flex items-end justify-between gap-4"><div><p class="text-sm font-semibold text-blue-700">Events</p><h1 class="mt-1 text-3xl font-bold tracking-tight text-slate-900">Add activity</h1><p class="mt-2 text-sm text-slate-600">Create a PRS activity and set its current delivery status.</p></div><a href="{{ route('admin.activities.index') }}" class="ui-button-secondary">Back to activities</a></section>

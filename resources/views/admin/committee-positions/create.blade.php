@@ -1,4 +1,4 @@
-@extends('layouts.app', ['title' => 'SiswaSphere | Add committee position'])
+@extends('layouts.app', ['title' => 'PRS NEXUS | Add committee position'])
 
 @section('content')
     <section class="flex items-end justify-between gap-4"><div><p class="text-sm font-semibold text-blue-700">Organization</p><h1 class="mt-1 text-3xl font-bold tracking-tight text-slate-900">Add committee position</h1><p class="mt-2 text-sm text-slate-600">Define a leadership role that can be assigned to a PRS member.</p></div><a href="{{ route('admin.committee-positions.index') }}" class="ui-button-secondary">Back to positions</a></section>

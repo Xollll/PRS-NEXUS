@@ -1,4 +1,4 @@
-@extends('layouts.app', ['title' => 'SiswaSphere | Members'])
+@extends('layouts.app', ['title' => 'PRS NEXUS | Members'])
 @section('content')
 <section class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between"><div><p class="text-sm font-semibold text-blue-700">Organization</p><h1 class="mt-1 text-3xl font-bold text-slate-900">Members</h1><p class="mt-2 text-sm text-slate-600">Manage PRS profiles, roles, and portal access.</p></div><a href="{{ route('admin.members.create') }}" class="ui-button-primary">Add member</a></section>
 <section class="mt-6 ui-card"><form method="GET" class="flex flex-col gap-3 sm:flex-row"><div class="min-w-0 flex-1"><label for="member-search" class="ui-label">Search members</label><input id="member-search" type="search" name="q" value="{{ request('q') }}" placeholder="Name, email, or matric number" class="ui-input"></div><div class="flex items-end gap-3"><button class="ui-button-primary">Search</button>@if(request('q'))<a href="{{ route('admin.members.index') }}" class="ui-button-secondary">Clear</a>@endif</div></form></section>

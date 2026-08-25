@@ -1,7 +1,7 @@
-# Project Proposal: SiswaSphere
+# Project Proposal: PRS NEXUS
 
 ## Introduction
-SiswaSphere is a web-based student organization management system built with Laravel. It is designed to centralize the administration of members, committee positions, meetings, and activities in one platform. The system provides both a public-facing directory for quick information lookup and an admin interface for maintaining organizational records.
+PRS NEXUS is a web-based integrated peer management and support system built with Laravel. It is designed to centralize the administration of members, committee positions, meetings, and activities in one platform. The system provides both a public-facing directory for quick information lookup and an admin interface for maintaining organizational records.
 
 ## Problem Statement
 Student organizations often rely on scattered spreadsheets, manual documents, and informal communication to manage their internal records. This creates several issues:
@@ -12,7 +12,7 @@ Student organizations often rely on scattered spreadsheets, manual documents, an
 - Searching for specific student, committee, or meeting information takes too much time.
 - Administrative tasks depend heavily on manual work, which increases the risk of errors.
 
-SiswaSphere addresses these problems by providing a single system for storing, searching, and managing organizational data.
+PRS NEXUS addresses these problems by providing a single system for storing, searching, and managing organizational data.
 
 ## Objectives
 The main objectives of this project are to:
@@ -38,7 +38,7 @@ This project focuses on the core administrative and informational needs of a stu
 The project does not cover advanced features such as automated notifications, mobile applications, payment processing, or full role-based approval workflows.
 
 ## System Features
-SiswaSphere includes the following features:
+PRS NEXUS includes the following features:
 
 - Public homepage that presents system overview and recent records.
 - Directory search that allows users to filter information by name, role, meeting title, or location.
@@ -57,4 +57,4 @@ The system is intended for the following users:
 - General visitors: Access the public homepage and directory for basic organizational information.
 
 ## Conclusion
-SiswaSphere is proposed as a centralized solution for managing student organization information in a more structured and efficient way. By combining a public directory with an administrative backend, the system improves accessibility, organization, and record keeping for the entire student group.
+PRS NEXUS is proposed as a centralized solution for managing student organization information in a more structured and efficient way. By combining a public directory with an administrative backend, the system improves accessibility, organization, and record keeping for the entire student group.

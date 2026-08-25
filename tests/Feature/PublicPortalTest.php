@@ -14,7 +14,7 @@ class PublicPortalTest extends TestCase
 
     public function test_the_public_home_page_loads(): void
     {
-        $this->get(route('home'))->assertOk()->assertSee('SiswaSphere');
+        $this->get(route('home'))->assertOk()->assertSee('PRS NEXUS');
     }
 
     public function test_the_public_directory_searches_and_filters_current_data(): void
