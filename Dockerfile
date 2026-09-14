@@ -11,10 +11,19 @@ COPY . .
 RUN npm run build
 
 
-# Install only Composer production dependencies.
-FROM composer:2 AS dependencies
+# Install Composer production dependencies using the same PHP 8.3 version as
+# the final application image. The binary-only image supplies Composer without
+# introducing its PHP runtime into this stage.
+FROM php:8.3-cli-alpine AS dependencies
 
 WORKDIR /app
+
+RUN apk add --no-cache libzip \
+    && apk add --no-cache --virtual .build-deps $PHPIZE_DEPS libzip-dev \
+    && docker-php-ext-install -j"$(nproc)" zip \
+    && apk del .build-deps
+
+COPY --from=composer/composer:2-bin /composer /usr/local/bin/composer
 
 COPY composer.json composer.lock ./
 RUN composer install \
