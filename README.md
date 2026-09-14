@@ -164,6 +164,25 @@ DB_PASSWORD=
 
 Then create the database and run `php artisan migrate --seed`.
 
+## Render deployment (MySQL)
+
+The repository includes a production `Dockerfile` for a Render web service and
+an [`.env.render.example`](.env.render.example) checklist for its environment
+variables. The Docker image builds the Vite assets, installs PHP's MySQL driver,
+runs safe database migrations on startup, and listens on Render's `PORT`.
+
+Before creating the web service, deploy MySQL as a separate **private** Render
+service with a persistent disk mounted at `/var/lib/mysql`. Use its internal
+host name (for example, `mysql`) for `DB_HOST`. Generate an application key
+locally with `php artisan key:generate --show`, then set it as the `APP_KEY`
+secret in Render. Do not run the included demo seeders in production: they
+create known demo passwords.
+
+Member profile photos currently use Laravel's local `public` disk. Render's
+normal service filesystem is ephemeral, so attach a persistent disk for
+`storage/app/public` or move uploads to object storage before enabling real
+avatar uploads.
+
 ## Testing
 
 The feature suite covers public portal access, member and admin authentication, and management workflows for members, committee positions, meetings, and activities.
