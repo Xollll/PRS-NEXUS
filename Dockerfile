@@ -59,4 +59,4 @@ EXPOSE 10000
 
 # Render supplies PORT. Migrations are safe to run on every deploy; do not add
 # --seed here because this project's seed data contains demo credentials.
-CMD ["sh", "-c", "php artisan migrate --force && (php artisan admin:create-from-env || true) && php artisan serve --host=0.0.0.0 --port=${PORT:-10000}"]
+CMD ["sh", "-c", "php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=${PORT:-10000}"]
