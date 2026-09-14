@@ -13,6 +13,12 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        // Render terminates HTTPS at its reverse proxy and forwards the
+        // original scheme in X-Forwarded-Proto. Trust the connecting proxy so
+        // Laravel generates HTTPS URLs in production while local HTTP remains
+        // unchanged.
+        $middleware->trustProxies(at: '*');
+
         $middleware->alias([
             'admin.session' => EnsureAdminSession::class,
             'member.session' => EnsureMemberSession::class,
