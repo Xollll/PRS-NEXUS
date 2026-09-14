@@ -30,10 +30,10 @@ FROM php:8.3-cli-alpine
 
 WORKDIR /var/www/html
 
-# pdo_mysql is required for the production MySQL database.
-RUN apk add --no-cache icu-libs libzip oniguruma \
-    && apk add --no-cache --virtual .build-deps $PHPIZE_DEPS icu-dev libzip-dev oniguruma-dev \
-    && docker-php-ext-install -j"$(nproc)" bcmath intl mbstring opcache pdo_mysql zip \
+# pdo_pgsql is required for the Render PostgreSQL database.
+RUN apk add --no-cache icu-libs libzip oniguruma postgresql-libs \
+    && apk add --no-cache --virtual .build-deps $PHPIZE_DEPS icu-dev libzip-dev oniguruma-dev postgresql-dev \
+    && docker-php-ext-install -j"$(nproc)" bcmath intl mbstring opcache pdo_pgsql zip \
     && apk del .build-deps
 
 COPY . .
