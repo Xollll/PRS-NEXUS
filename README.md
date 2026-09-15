@@ -197,7 +197,6 @@ Tests use an isolated in-memory SQLite database as configured in `phpunit.xml`.
 3. Run `composer test`, `./vendor/bin/pint`, and `npm run build`.
 4. Open a pull request describing the problem and the chosen solution.
 
-Please keep the interface consistent with the project principles in [`docs/ui-guidelines.md`](docs/ui-guidelines.md).
 
 **THIS PROJECT HAS BEEN TESTED AND DEPLOYED FOR DEMO PURPOSES ON RENDER USING POSTGRESQL. POSTGRESQL CAN BE USED AS AN ALTERNATIVE TO MYSQL.**
 
