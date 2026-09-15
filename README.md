@@ -62,8 +62,7 @@ Make sure the following are installed:
 ### Installation
 
 ```bash
-git clone https://github.com/Xollll/Siswa-Sphere.git
-cd Siswa-Sphere
+git clone 
 
 composer install
 npm install
@@ -107,9 +106,7 @@ After running `php artisan migrate --seed`, use these credentials:
 | Portal | Email | Password |
 | --- | --- | --- |
 | Administrator | `admin@prsnexus.test` | `password` |
-| Member | `naif@example.test` | `password` |
-
-Additional seeded member accounts use `zal@example.test` and `ariq@example.test`, also with the password `password`.
+| Member | `member@example.test` | `password` |
 
 > Demo credentials are intended for local development only. Change or remove them before deploying the application.
 
@@ -201,6 +198,8 @@ Tests use an isolated in-memory SQLite database as configured in `phpunit.xml`.
 4. Open a pull request describing the problem and the chosen solution.
 
 Please keep the interface consistent with the project principles in [`docs/ui-guidelines.md`](docs/ui-guidelines.md).
+
+**THIS PROJECT HAS BEEN TESTED AND DEPLOYED FOR DEMO PURPOSES ON RENDER USING POSTGRESQL. POSTGRESQL CAN BE USED AS AN ALTERNATIVE TO MYSQL.**
 
 ## License
 
