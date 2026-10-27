@@ -131,16 +131,4 @@ routes/web.php            # Public and authenticated web routes
 tests/Feature/            # End-to-end application behavior tests
 ```
 
-## Configuration
-
-The included `.env.example` uses SQLite and database-backed sessions, cache, and queues. To use MySQL, update the database section in `.env`:
-
-```dotenv
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=prs_nexus
-DB_USERNAME=root
-DB_PASSWORD=
-```
 
